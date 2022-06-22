@@ -1,18 +1,40 @@
+// library components
+import { ButtonNf, CreateLobby, HomeNf, LeaderBoard } from 'gettint-drunk/dist/components';
+
+// native components
 import { StatusBar } from 'expo-status-bar';
-import { ButtonNf, HomeNf } from 'gettint-drunk/dist/components';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+
+// components
+import EntryApp from './EntryApp';
+
+const listOfPlayers = [
+  {
+    id: 0,
+    nickname: 'fad'
+  },
+  {
+    id: 1,
+    nickname: 'dasd'
+  },
+  {
+    id: 2,
+    nickname: 'faasdffdd'
+  },
+  {
+    id: 3,
+    nickname: 'sdfs'
+  },
+]
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      <HomeNf 
-      onQuickMatch={()=> console.log('onQuickMatch')} 
-      onCreateLobby={()=> console.log('onCreateLobby')} 
-      onLeaderBoard={()=> console.log('onLeaderBoard')} 
-      />
-      {/* <ButtonNf title={'prova'} /> */}
-    </View>
+      {/* <LeaderBoard onClickNavigate={() => console.log('ciao')} /> */}
+      <CreateLobby user={{ Id: 1, nickname: 'me' }} listOfPlayers={listOfPlayers} onTapStartGame={()=> console.log('tap')} />
+      <EntryApp />
+    </SafeAreaView>
   );
 }
 
