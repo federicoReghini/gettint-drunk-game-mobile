@@ -10,6 +10,8 @@ import Game from './screens/Game';
 import Home from './screens/Home';
 import JoinLobby from './screens/JoinLobby';
 import Leaderboard from './screens/Leaderboard';
+import Registration from './screens/Registration';
+import Login from './screens/Login';
 
 
 const EntryApp = () => {
@@ -51,6 +53,44 @@ const EntryApp = () => {
             options={
               {
                 title: 'Home',
+                headerStyle: {
+                  backgroundColor: '#fff',
+                },
+                headerTintColor: '#44403C',
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  fontSize: 24,
+                }
+              }
+            }
+          />
+
+          <Stack.Screen
+            name='Registration'
+            component={Registration}
+            options={
+              {
+                title: 'Registration',
+                headerStyle: {
+                  backgroundColor: '#fff',
+                },
+                headerTintColor: '#44403C',
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  fontSize: 24,
+                }
+              }
+            }
+          />
+
+          <Stack.Screen
+            name='Login'
+            component={Login}
+            options={
+              {
+                title: 'Login',
                 headerStyle: {
                   backgroundColor: '#fff',
                 },

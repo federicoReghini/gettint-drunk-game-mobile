@@ -28,11 +28,25 @@ const listOfPlayers = [
 ]
 
 export default function App() {
+
+  const handleQuickMatch = () => {
+
+  }
+
+  const handleCreateLobby = () => {
+    navigation.navigate('Leaderboard');
+  }
+
+  const handleLeaderBoard = () => {
+    navigation.navigate('Leaderboard');
+  }
+
+  const handleNavigation = (path) => () =>{
+    navigation.navigate(path);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      {/* <LeaderBoard onClickNavigate={() => console.log('ciao')} /> */}
-      <CreateLobby user={{ Id: 1, nickname: 'me' }} listOfPlayers={listOfPlayers} onTapStartGame={()=> console.log('tap')} />
       <EntryApp />
     </SafeAreaView>
   );
