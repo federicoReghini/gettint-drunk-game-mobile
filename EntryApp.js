@@ -50,20 +50,7 @@ const EntryApp = () => {
           <Stack.Screen
             name='Home'
             component={Home}
-            options={
-              {
-                title: 'Home',
-                headerStyle: {
-                  backgroundColor: '#fff',
-                },
-                headerTintColor: '#44403C',
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  fontSize: 24,
-                }
-              }
-            }
+           
           />
 
           <Stack.Screen

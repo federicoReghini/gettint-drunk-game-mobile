@@ -1,11 +1,30 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { LeaderBoard } from 'gettint-drunk/dist/components'
+import React from 'react';
 
-const Leaderboard = () => {
+// native components
+import { StyleSheet, View } from 'react-native';
+
+// library
+import { LeaderBoard } from 'gettint-drunk/dist/components';
+
+const Leaderboard = ({ navigation }) => {
+
+  const handleNavigate = () => {
+    navigation.navigate('Home')
+  }
+
   return (
-    <LeaderBoard />
+    <View
+      style={styles.leaderBoardContainer}
+    >
+      <LeaderBoard onClickNavigate={handleNavigate} />
+    </View>
   )
 }
 
-export default Leaderboard
+export default Leaderboard;
+
+const styles = StyleSheet.create({
+  leaderBoardContainer: {
+    flex: 1
+  },
+})
