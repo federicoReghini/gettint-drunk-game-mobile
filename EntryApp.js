@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // native compoents and navigation
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,17 +12,46 @@ import JoinLobby from './screens/JoinLobby';
 import Leaderboard from './screens/Leaderboard';
 import Registration from './screens/Registration';
 import Login from './screens/Login';
+import { getStorage } from 'gettint-drunk';
 
+const initState = {
+  isLoggedIn: false
+}
 
 const EntryApp = () => {
 
   const Stack = createStackNavigator();
 
+  const [state, setState] = useState(initState);
+
+  function callbackUseEffect() {
+    const newState = Object.assign({}, state);
+    (async () => {
+
+      const token = await getStorage('token');
+
+      if (getStorage('token') !== null) {
+
+        newState.isLoggedIn = true;
+      } else {
+
+        newState.isLoggedIn = false;
+      }
+    })()
+
+
+    setState({
+      ...newState
+    });
+  }
+
+  useEffect(callbackUseEffect, []);
+
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={'Home'}
+          initialRouteName={state.isLoggedIn ? 'Home' : 'Login'}
         >
 
           {/* <Stack.Screen
@@ -50,7 +79,7 @@ const EntryApp = () => {
           <Stack.Screen
             name='Home'
             component={Home}
-           
+
           />
 
           <Stack.Screen

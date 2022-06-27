@@ -4,7 +4,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 // library
-import { LeaderBoard } from 'gettint-drunk/dist/components';
+import { LeaderBoardNf } from 'gettint-drunk';
 
 const Leaderboard = ({ navigation }) => {
 
@@ -16,7 +16,7 @@ const Leaderboard = ({ navigation }) => {
     <View
       style={styles.leaderBoardContainer}
     >
-      <LeaderBoard onClickNavigate={handleNavigate} />
+      <LeaderBoardNf onClickNavigate={handleNavigate} />
     </View>
   )
 }

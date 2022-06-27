@@ -1,11 +1,11 @@
 import React from 'react';
 
 // library components
-import { CreateLobby } from 'gettint-drunk/dist/components';
+import { CreateLobbyNf } from 'gettint-drunk';
 
 const CreatesLobby = ({ navigation }) => {
   return (
-    <CreateLobby />
+    <CreateLobbyNf />
   )
 }
 

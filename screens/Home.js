@@ -1,12 +1,12 @@
 import React from 'react';
 
 // library components
-import { HomeNf } from 'gettint-drunk/dist/components';
+import { clearStorage, HomeNf } from 'gettint-drunk';
 import { View } from 'react-native';
 
 
 const Home = ({ navigation }) => {
-
+clearStorage()
   const handleQuickMatch = () => {
 
   }
