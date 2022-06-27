@@ -1,12 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // library
-import { LoginNf } from 'gettint-drunk/dist/components';
+import { getStorage, LoginNf } from 'gettint-drunk';
+import { View } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
-const Login = () => {
+const Login = ({ navigation }) => {
+
+  const isFocused = useIsFocused();
+
+  const handleNavigation = (routes) => () => {
+    navigation.navigate(routes);
+  }
+
+  function callbackUseEffect() {
+
+    (async () => {
+
+      const token = await getStorage('token');
+      if (token !== null) {
+        navigation.navigate('Home');
+      }
+    })()
+  }
+
+  useEffect(callbackUseEffect, [])
+
   return (
-    <LoginNf />
+    <View style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <LoginNf onPressSubmit={handleNavigation('Home')} onGoToRegistration={handleNavigation('Registration')} />
+    </View>
   )
 }
 
-export default Login
+export default React.memo(Login);

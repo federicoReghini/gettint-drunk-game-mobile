@@ -1,22 +1,14 @@
 import React from 'react';
 
 // library components
-import { HomeNf } from 'gettint-drunk/dist/components';
-import { Text, View } from 'react-native';
+import { clearStorage, HomeNf } from 'gettint-drunk';
+import { View } from 'react-native';
 
 
 const Home = ({ navigation }) => {
-
+clearStorage()
   const handleQuickMatch = () => {
 
-  }
-
-  const handleCreateLobby = () => {
-    navigation.navigate('Leaderboard');
-  }
-
-  const handleLeaderBoard = () => {
-    navigation.navigate('Leaderboard');
   }
 
   const handleNavigation = (path) => () =>{
@@ -24,10 +16,10 @@ const Home = ({ navigation }) => {
   }
 
   return (
-   <View style={{flex:1, display: 'flex', alignItems: 'center', justifyContent: 'center', borderWidth: 3 ,backgroundColor: 'red'}}>
+   <View style={{flex:1, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
      <HomeNf
       onQuickMatch={handleQuickMatch}
-      onCreateLobby={handleCreateLobby}
+      onCreateLobby={handleNavigation('CreatesLobby')}
       onLeaderBoard={handleNavigation('Leaderboard')}
     />
    </View>

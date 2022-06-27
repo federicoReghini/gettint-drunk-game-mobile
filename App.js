@@ -1,6 +1,3 @@
-// library components
-import { ButtonNf, CreateLobby, HomeNf, LeaderBoard } from 'gettint-drunk/dist/components';
-
 // native components
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet } from 'react-native';
@@ -28,22 +25,7 @@ const listOfPlayers = [
 ]
 
 export default function App() {
-
-  const handleQuickMatch = () => {
-
-  }
-
-  const handleCreateLobby = () => {
-    navigation.navigate('Leaderboard');
-  }
-
-  const handleLeaderBoard = () => {
-    navigation.navigate('Leaderboard');
-  }
-
-  const handleNavigation = (path) => () =>{
-    navigation.navigate(path);
-  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -56,7 +38,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
 });

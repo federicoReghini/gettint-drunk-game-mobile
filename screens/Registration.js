@@ -1,10 +1,15 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { SignupNf } from 'gettint-drunk/dist/components'
+import { SignupNf } from 'gettint-drunk'
 
-const Registration = () => {
+const Registration = ({ navigation }) => {
+
+  const handleNavigation = () => {
+    navigation.navigate('Home');
+  }
+
   return (
-    <SignupNf />
+    <SignupNf onPressSubmit={handleNavigation} />
   )
 }
 
