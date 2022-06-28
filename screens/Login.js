@@ -1,15 +1,23 @@
 import React, { useEffect } from 'react';
 
 // library
-import { getStorage, LoginNf } from 'gettint-drunk';
+import { getStorage, LoginNf, setStorage } from 'gettint-drunk';
 import { View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+
 
 const Login = ({ navigation }) => {
 
   const isFocused = useIsFocused();
 
-  const handleNavigation = (routes) => () => {
+  const handleNavigation = (routes) => async (e) => {
+    
+    await Promise.all([
+      setStorage('token', e.data.token),
+      setStorage('refreshToken', e.data.refreshToken),
+      setStorage('user', e.data.id)
+    ])
+
     navigation.navigate(routes);
   }
 
