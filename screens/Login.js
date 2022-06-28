@@ -11,12 +11,14 @@ const Login = ({ navigation }) => {
   const isFocused = useIsFocused();
 
   const handleNavigation = (routes) => async (e) => {
-    
-    await Promise.all([
-      setStorage('token', e.data.token),
-      setStorage('refreshToken', e.data.refreshToken),
-      setStorage('user', e.data.id)
-    ])
+    if (e.data !== undefined) {
+
+      await Promise.all([
+        setStorage('token', e.data.token),
+        setStorage('refreshToken', e.data.refreshToken),
+        setStorage('user', e.data.id)
+      ])
+    }
 
     navigation.navigate(routes);
   }
