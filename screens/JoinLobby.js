@@ -4,8 +4,13 @@ import React from 'react';
 import { JoinLobbyNf } from 'gettint-drunk';
 
 const JoinLobby = ({ navigation }) => {
+
+  const handleNavigation = () => {
+    navigation.navigate('Game')
+  }
+
   return (
-    <JoinLobbyNf />
+    <JoinLobbyNf onStartMatch={handleNavigation} />
   )
 }
 

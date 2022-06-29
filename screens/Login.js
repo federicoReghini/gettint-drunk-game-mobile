@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { getStorage, LoginNf, setStorage } from 'gettint-drunk';
 import { View } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 
 const Login = ({ navigation }) => {
@@ -26,6 +27,7 @@ const Login = ({ navigation }) => {
   function callbackUseEffect() {
 
     (async () => {
+      await ScreenOrientation.unlockAsync();
 
       const token = await getStorage('token');
       if (token !== null) {
@@ -34,7 +36,7 @@ const Login = ({ navigation }) => {
     })()
   }
 
-  useEffect(callbackUseEffect, [])
+  useEffect(callbackUseEffect, [isFocused])
 
   return (
     <View style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

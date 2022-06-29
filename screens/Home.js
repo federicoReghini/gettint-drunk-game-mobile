@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // library components
-import { clearStorage, HomeNf } from 'gettint-drunk';
+import { clearStorage, HomeNf, LobbyContainer } from 'gettint-drunk';
 import { View } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 
 const Home = ({ navigation }) => {

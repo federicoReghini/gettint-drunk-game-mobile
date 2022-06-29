@@ -1,31 +1,24 @@
 // native components
 import { StatusBar } from 'expo-status-bar';
+import { useLogout } from 'gettint-drunk';
+import { useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
 // components
 import EntryApp from './EntryApp';
 
-const listOfPlayers = [
-  {
-    id: 0,
-    nickname: 'fad'
-  },
-  {
-    id: 1,
-    nickname: 'dasd'
-  },
-  {
-    id: 2,
-    nickname: 'faasdffdd'
-  },
-  {
-    id: 3,
-    nickname: 'sdfs'
-  },
-]
-
 export default function App() {
-  
+
+  const logout = useLogout();
+
+  const callbackEffect = () => {
+    (async()=>{
+      await logout.logoutExpire();
+    })();
+  }
+
+  useEffect(callbackEffect, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />

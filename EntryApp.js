@@ -79,7 +79,6 @@ const EntryApp = () => {
           <Stack.Screen
             name='Home'
             component={Home}
-
           />
 
           <Stack.Screen
@@ -162,18 +161,7 @@ const EntryApp = () => {
             name='Game'
             component={Game}
             options={
-              {
-                title: 'Game',
-                headerStyle: {
-                  backgroundColor: '#fff',
-                },
-                headerTintColor: '#44403C',
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  fontSize: 24,
-                }
-              }
+              {headerShown: false}
             }
           />
 
