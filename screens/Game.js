@@ -1,7 +1,10 @@
 import { View, Text } from 'react-native'
 import React, { useEffect } from 'react'
-import { LobbyContainer } from 'gettint-drunk'
+import { getStorage, LobbyContainer } from 'gettint-drunk'
 import { useIsFocused } from '@react-navigation/native';
+import * as ScreenOrientation from 'expo-screen-orientation';
+
+let token;
 
 const Game = ({ navigation }) => {
 
@@ -10,12 +13,20 @@ const Game = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
+      token = await getStorage('token');
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
     })()
+    return async () => {
+      await ScreenOrientation.unlockAsync();
+    }
   }, [isFocused])
 
+  const handleNavigation = () =>{
+    navigation.navigate('Home');
+  }
+
   return (
-    <LobbyContainer />
+    <LobbyContainer mobileToken={token} onAfterQuit={handleNavigation} />
   )
 }
 

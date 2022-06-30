@@ -1,6 +1,6 @@
 // native components
 import { StatusBar } from 'expo-status-bar';
-import { useLogout } from 'gettint-drunk';
+import { getStorage, useLogout, getExpireStorage, clearStorage } from 'gettint-drunk';
 import { useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 
@@ -11,13 +11,13 @@ export default function App() {
 
   const logout = useLogout();
 
-  const callbackEffect = () => {
-    (async()=>{
-      await logout.logoutExpire();
-    })();
-  }
+  (async () => {
+    const REFRESHTOKEN = await getStorage('refreshToken')
+    const EXPIRE = await getExpireStorage('refreshToken')
+    const ISEXPIRE = await logout.logoutExpire(REFRESHTOKEN, EXPIRE);
+    ISEXPIRE && await clearStorage();
+  })();
 
-  useEffect(callbackEffect, []);
 
   return (
     <SafeAreaView style={styles.container}>

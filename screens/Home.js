@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 
 // library components
-import { clearStorage, HomeNf, LobbyContainer } from 'gettint-drunk';
+import { clearStorage, HomeNf, getStorage } from 'gettint-drunk';
 import { View } from 'react-native';
-import * as ScreenOrientation from 'expo-screen-orientation';
 
 
 const Home = ({ navigation }) => {
   // clearStorage()
+
+  // useEffect(()=> {
+  //   (async()=>{console.log(await getStorage('token'))})()
+  // },[])
 
   const handleNavigation = (path) => () => {
     navigation.navigate(path);
