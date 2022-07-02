@@ -8,9 +8,11 @@ import { View } from 'react-native';
 const Home = ({ navigation }) => {
   // clearStorage()
 
-  // useEffect(()=> {
-  //   (async()=>{console.log(await getStorage('token'))})()
-  // },[])
+  useEffect(()=> {
+    // (async()=>{
+
+    // })()
+  },[])
 
   const handleNavigation = (path) => () => {
     navigation.navigate(path);

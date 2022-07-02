@@ -9,13 +9,17 @@ import EntryApp from './EntryApp';
 
 export default function App() {
 
-  const logout = useLogout();
+  // const logout = useLogout();
 
   (async () => {
-    const REFRESHTOKEN = await getStorage('refreshToken')
-    const EXPIRE = await getExpireStorage('refreshToken')
-    const ISEXPIRE = await logout.logoutExpire(REFRESHTOKEN, EXPIRE);
-    ISEXPIRE && await clearStorage();
+    // const REFRESHTOKEN = await getStorage('refreshToken')
+    // const EXPIRE = await getExpireStorage('refreshToken')
+    // const ISEXPIRE = await logout.logoutExpire(REFRESHTOKEN, EXPIRE);
+    
+    // if (ISEXPIRE === 'expire') {
+      await clearStorage();
+    // }
+
   })();
 
 
