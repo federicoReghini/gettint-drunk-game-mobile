@@ -1,78 +1,80 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // library
-import { getStorage, JoinLobbyNf } from 'gettint-drunk';
+import { getStorage, JoinLobbyNf, LobbyContainer } from 'gettint-drunk';
 
 // navigation
 import { playFastUser } from 'gettint-drunk/dist/services/api/userapi';
 import { deleteApi } from 'gettint-drunk/dist/services/genericServices';
 import { eventEmit } from 'gettint-drunk';
 import { eventOn } from 'gettint-drunk';
-import { createLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
-import { editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
-import { connectWS } from 'gettint-drunk';
-import { getMessage, sendMessage } from 'gettint-drunk/dist/services/genericWebSocket';
-var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws')
+import { createLobby, editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
+import { connect, sendMessage } from '../webSocket/genericWebSocket';
 
 let id;
 let token;
 let lobby;
 let connectionEstablished;
 
+function JoinLobby() {
 
-(async () => {
-  token = await getStorage('token')
-  await deleteApi('lobby', token)
-  id = await getStorage('user');
-
-})()
-
-function JoinLobby({ navigation }) {
-
-
-  const sendMessage = (message) => {
-    WS.send(JSON.stringify(message));
-  }
-
+  const [state, setState] = useState({
+    id: null,
+    isMatch: false
+  })
 
   useEffect(() => {
-    // WS.onopen = () => {
-    //   console.log("CONNECTED");
-    // }
-    WS.onmessage = (event) => {
-      console.log('onmessage', JSON.parse(event.data));
-      eventEmit('lobby', event.data)
-      lobby = JSON.parse(event.data)
-    }
+    (async () => {
+      token = await getStorage('token')
+      await deleteApi('lobby', token)
+      id = await getStorage('user');
+      setState({
+        ...state,
+        id: id
+      })
 
-    editLobby(114, null, token).then(response => {
+      connect(id);
 
-      WS.onopen = () => {
-        console.log("CONNECTED");
-      }
+      editLobby(101, null,token).then(response => {
+        lobby = response?.data;
 
-      connectionEstablished = false;
-      setTimeout(() => {
-        if (WS != null) {
-          const message = {
-            user_id: id,
-            method: "connectLobby"
-          }
-          sendMessage(message);
-          connectionEstablished = true;
-        }
-      }, 1000);
-    })
+        connectionEstablished = false;
+        setTimeout(() => {
+            const message = {
+              user_id: id,
+              method: "connectLobby"
+            }
+            sendMessage(message);
+            connectionEstablished = true;
+        }, 1000);
+      })
+    })()
 
   }, [])
 
   const handleNavigation = () => {
-    navigation.navigate(routes.GAME);
+    const message = {
+      user_id: id,
+      method: "startMatch"
+    }
+    sendMessage(message);
+    // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
+    setState({
+      ...state,
+      isMatch: true
+    })
   }
 
 
   return (
-    <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
+    <>
+      {
+        !state.isMatch ?
+          <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
+          :
+          <LobbyContainer lobbyId={lobby.idLobby} />
+      }
+    </>
   )
 }
 
