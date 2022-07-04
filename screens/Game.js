@@ -3,13 +3,15 @@ import React, { useEffect } from 'react'
 import { getStorage, LobbyContainer } from 'gettint-drunk'
 import { useIsFocused } from '@react-navigation/native';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { requestCard, stopPlaying } from '../webSocket/genericWebSocket';
 
 let token;
 
-const Game = ({ navigation }) => {
+const Game = ({ route, navigation }) => {
 
   const isFocused = useIsFocused();
-
+  const { idLobby } = route.params;
+  const { idUser } = route.params;
 
   useEffect(() => {
     (async () => {
@@ -21,12 +23,26 @@ const Game = ({ navigation }) => {
     }
   }, [isFocused])
 
-  const handleNavigation = () =>{
+  const handleNavigation = () => {
     navigation.navigate('Home');
   }
 
+  const requestCardFunc = () => {
+    requestCard(idUser)
+  }
+
+  const stopPlayingFunc = () => {
+    stopPlaying(idUser)
+  }
+
   return (
-    <LobbyContainer mobileToken={token} onAfterQuit={handleNavigation} />
+    <LobbyContainer
+      lobbyId={idLobby}
+      userId={idUser}
+      onRequestCard={requestCardFunc}
+      onStop={stopPlayingFunc}
+      onAfterQuit={handleNavigation}
+    />
   )
 }
 

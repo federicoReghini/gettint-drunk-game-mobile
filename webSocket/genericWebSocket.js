@@ -1,10 +1,13 @@
-import { eventEmit, eventOn } from "gettint-drunk";
+import { eventEmit, eventOn, setStorage } from "gettint-drunk";
 import { quitLobby } from "gettint-drunk/dist/services/api/lobbyapi";
 
 
 const WEBSOCKET = 'ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws'
 
 var WS = null
+
+export var MATCH = null;
+let LOBBY = null;
 
 export function connect(idUser) {
     WS = new WebSocket(WEBSOCKET);
@@ -21,18 +24,23 @@ export function connect(idUser) {
         if (WSDATA.hasOwnProperty("idLobby")) {
             eventEmit('lobby', event.data)
         } else {
-            const MATCH = eventOn('match', e => e)
+             eventOn('match', e => {
+                MATCH = JSON.parse(e);
+             })
             console.log(MATCH);
-            if (MATCH == null) {
-
+            if (MATCH === null || undefined) {
                 eventEmit('match', event.data);
-
+                eventEmit('isMatch', true);
+                
                 setTimeout(() => {
                     requestCard(idUser);
                 }, 1000);
+                return MATCH = event.data;
 
             } else {
                 eventEmit('match', event.data);
+
+                return MATCH = event.data; 
             }
         }
     }
@@ -74,7 +82,9 @@ export function stopPlaying(idUser) {
 
 export function changeLobbyAccess(idUser) {
     console.log("changing access");
-    const LOBBY = eventOn('lobby', e => e)
+     eventOn('lobby', e => {
+        LOBBY = JSON.parse(e)
+     })
     const message = {
         user_id: idUser,
         method: "changeLobbyAccess",
@@ -104,7 +114,9 @@ export function quitLobbyWs(token, idUser) {
     quitLobby(token).then(response => {
         if (response?.data?.esito) {
 
-            const LOBBY = eventOn('lobby', e => e);
+             eventOn('lobby', e => {
+                LOBBY = JSON.parse(e);
+             });
 
             console.log('EvLobby', LOBBY);
 

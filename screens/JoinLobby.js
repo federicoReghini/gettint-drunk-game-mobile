@@ -9,14 +9,16 @@ import { deleteApi } from 'gettint-drunk/dist/services/genericServices';
 import { eventEmit } from 'gettint-drunk';
 import { eventOn } from 'gettint-drunk';
 import { createLobby, editLobby } from 'gettint-drunk/dist/services/api/lobbyapi';
-import { connect, sendMessage } from '../webSocket/genericWebSocket';
+import { connect, requestCard, sendMessage, stopPlaying } from '../webSocket/genericWebSocket';
+
+var WS = new WebSocket('ws://7emezzo-dev.eba-uwfpyt28.eu-south-1.elasticbeanstalk.com/ws');
+
 
 let id;
 let token;
 let lobby;
-let connectionEstablished;
 
-function JoinLobby() {
+function JoinLobby({ navigation }) {
 
   const [state, setState] = useState({
     id: null,
@@ -24,6 +26,7 @@ function JoinLobby() {
   })
 
   useEffect(() => {
+
     (async () => {
       token = await getStorage('token')
       await deleteApi('lobby', token)
@@ -32,23 +35,39 @@ function JoinLobby() {
         ...state,
         id: id
       })
+      console.log(id, state.id);
+      connect(state.id);
 
-      connect(id);
-
-      editLobby(101, null,token).then(response => {
-        lobby = response?.data;
-
-        connectionEstablished = false;
+      // if (lobby === null) {
+      editLobby(218, null, token).then(response => {
+        eventOn('lobby', e => {
+          lobby = JSON.parse(e)
+          console.log('lobby', lobby);
+        })
         setTimeout(() => {
+          if (WS != null) {
             const message = {
               user_id: id,
               method: "connectLobby"
             }
             sendMessage(message);
-            connectionEstablished = true;
+          }
         }, 1000);
       })
+      // }
     })()
+
+  }, [])
+
+  useEffect(() => {
+    eventOn('isMatch', e => {
+      if (e === true) {
+        navigation.navigate('Game', {
+          idLobby: lobby.idLobby,
+          idUser: id
+        })
+      }
+    })
 
   }, [])
 
@@ -58,13 +77,16 @@ function JoinLobby() {
       method: "startMatch"
     }
     sendMessage(message);
-    // navigate(routes.GAME, {state: {lobbyId: lobby.idLobby}});
-    setState({
-      ...state,
-      isMatch: true
-    })
+
   }
 
+  const requestCardFunc = () => {
+    requestCard(id)
+  }
+
+  const stopPlayingFunc = () => {
+    stopPlaying(id)
+  }
 
   return (
     <>
@@ -72,10 +94,10 @@ function JoinLobby() {
         !state.isMatch ?
           <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
           :
-          <LobbyContainer lobbyId={lobby.idLobby} />
+          <LobbyContainer lobbyId={lobby.idLobby} userId={state.id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} />
       }
     </>
   )
 }
 
-export default JoinLobby
+export default JoinLobby;
