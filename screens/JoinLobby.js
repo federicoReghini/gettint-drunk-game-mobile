@@ -36,10 +36,10 @@ function JoinLobby({ navigation }) {
         id: id
       })
       console.log(id, state.id);
-      connect(state.id);
+      connect(id);
 
       // if (lobby === null) {
-      editLobby(218, null, token).then(response => {
+      editLobby(62, null, token).then(response => {
         eventOn('lobby', e => {
           lobby = JSON.parse(e)
           console.log('lobby', lobby);
@@ -94,7 +94,7 @@ function JoinLobby({ navigation }) {
         !state.isMatch ?
           <JoinLobbyNf onStartMatch={handleNavigation} id={id} />
           :
-          <LobbyContainer lobbyId={lobby.idLobby} userId={state.id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} />
+          <LobbyContainer lobbyId={lobby.idLobby} userId={id} onRequestCard={requestCardFunc} onStop={stopPlayingFunc} />
       }
     </>
   )
